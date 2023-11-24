@@ -1,0 +1,33 @@
+//Atividade 2 BD - BLOGBD
+CREATE TABLE autor(
+autor_id INT NOT NULL PRIMARY KEY,
+nome_autor VARCHAR(100) NOT NULL,
+email VARCHAR(255) NOT NULL
+)
+
+CREATE TABLE post(
+post_id INT NOT NULL PRIMARY KEY,
+titulo VARCHAR(70) NOT NULL,
+conteudo VARCHAR(255) NOT NULL,
+data_de_publicacao DATE NOT NULL,
+autor_id INT NOT NULL,
+FOREIGN KEY(autor_id_FK)references autor(autor_id)
+)
+
+CREATE TABLE comentario(
+comentario_id INT NOT NULL PRIMARY KEY,
+texto_do_comentario VARCHAR(255),
+data_do_comentario DATE,
+autor_id INT NOT NULL,
+FOREIGN KEY(autor_id_FK)references autor(autor_id),
+post_id INT NOT NULL,
+FOREIGN KEY(post_id_FK)references post(post_id)
+)
+
+CREATE TABLE uniao_comentario_autor(
+comentario_id INT NOT NULL PRIMARY KEY,
+nome_autor VARCHAR(100) NOT NULL,
+email VARCHAR(255) NOT NULL,
+texto_do_comentario VARCHAR(255),
+data_do_comentario DATE
+)
