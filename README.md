@@ -6,3 +6,6 @@ Atividade 1:
 
 Atividade 2:
 ![image](https://github.com/MariMendes145/Softex-BD/assets/98403577/a19cbc3f-5fd9-4313-8c8d-8cbb74fbfbfd)
+
+Atividade 3:
+![image](https://github.com/MariMendes145/Softex-BD/assets/98403577/9fddcda8-ba75-4f76-b736-0359e2e1f219)
