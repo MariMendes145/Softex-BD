@@ -1,0 +1,102 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema techdata
+-- -----------------------------------------------------
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`categoria`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`categoria` (
+  `idcategoria` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idcategoria`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`produto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`produto` (
+  `idproduto` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `codigo` INT NOT NULL,
+  `valor` DECIMAL(8,2) NOT NULL,
+  `categoria_idcategoria` INT NULL,
+  PRIMARY KEY (`idproduto`),
+  INDEX `fk_produto_categoria_idx` (`categoria_idcategoria` ASC) VISIBLE,
+  CONSTRAINT `fk_produto_categoria`
+    FOREIGN KEY (`categoria_idcategoria`)
+    REFERENCES `mydb`.`categoria` (`idcategoria`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`usuario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`usuario` (
+  `idusuario` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NULL,
+  PRIMARY KEY (`idusuario`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`transacao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`transacao` (
+  `idtransacao` INT NOT NULL AUTO_INCREMENT,
+  `codigo` INT NOT NULL,
+  `data` DATE NULL,
+  `valor` DECIMAL(8,2) NOT NULL,
+  `usuario_idusuario` INT NOT NULL,
+  PRIMARY KEY (`idtransacao`),
+  INDEX `fk_transacao_usuario1_idx` (`usuario_idusuario` ASC) VISIBLE,
+  CONSTRAINT `fk_transacao_usuario1`
+    FOREIGN KEY (`usuario_idusuario`)
+    REFERENCES `mydb`.`usuario` (`idusuario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`transacaoProduto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`transacaoProduto` (
+  `produto_idproduto` INT NOT NULL,
+  `transacao_idtransacao` INT NOT NULL,
+  PRIMARY KEY (`produto_idproduto`, `transacao_idtransacao`),
+  INDEX `fk_transacao_has_produto_produto1_idx` (`produto_idproduto` ASC) VISIBLE,
+  INDEX `fk_transacao_has_produto_transacao1_idx` (`transacao_idtransacao` ASC) VISIBLE,
+  CONSTRAINT `fk_transacao_has_produto_transacao1`
+    FOREIGN KEY (`transacao_idtransacao`)
+    REFERENCES `mydb`.`transacao` (`idtransacao`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_transacao_has_produto_produto1`
+    FOREIGN KEY (`produto_idproduto`)
+    REFERENCES `mydb`.`produto` (`idproduto`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
